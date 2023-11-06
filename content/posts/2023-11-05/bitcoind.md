@@ -5,6 +5,41 @@ tags: ['Bitcoin']
 draft: false
 ---
 
+## bitcoin.conf
+```
+ cat /home/yyh/.bitcoin/bitcoin.conf
+# testnet=1
+datadir=/media/yyh/FDFA-FF1F/bitcoin
+listen=1
+server=1
+daemon=1
+rpcuser=yyh
+rpcpassword=xxxxxxxxxxxxx
+rpcallowip=127.0.0.1
+rpcbind=127.0.0.1
+rest=1
+deprecatedrpc=generate
+txindex=1
+zmqpubrawblock=tcp://127.0.0.1:28332
+zmqpubrawtx=tcp://127.0.0.1:28333
+zmqpubhashtx=tcp://127.0.0.1:28334
+zmqpubhashblock=tcp://127.0.0.1:28335
+[test]
+listen=1
+server=1
+daemon=1
+rpcuser=yyh
+rpcpassword=xxxxxxxxxxxxx
+rpcallowip=127.0.0.1
+rpcbind=127.0.0.1
+rest=1
+deprecatedrpc=generate
+txindex=1
+zmqpubrawblock=tcp://127.0.0.1:28332
+zmqpubrawtx=tcp://127.0.0.1:28333
+zmqpubhashtx=tcp://127.0.0.1:28334
+zmqpubhashblock=tcp://127.0.0.1:28335
+```
 ## Scipt
 ### scriptSig
 ```
