@@ -2,3 +2,16 @@ baseURL = 'http://example.org/'
 languageCode = 'en-us'
 title = "Yuan's Blog"
 theme="beautifulhugo"
+
+[Author]
+  name = "Yinhuan Yuan"
+  github = "yhyuan/yuan-blog-hugo"
+
+[[menu.main]]
+  name = 'Blog'
+  url = ""
+  weight = 1
+[[menu.main]]
+  name = 'About'
+  url = "pages/about"
+  weight = 2
