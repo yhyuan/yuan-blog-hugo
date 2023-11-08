@@ -57,34 +57,26 @@ n <TeX><TeX>=</TeX><TeX>=</TeX></TeX> damage.length
 
 0 <TeX>\leq</TeX> armor <TeX>\leq</TeX> 105
 
-
-
 ## Solution
-The question can be summarized that if we remove an element at index i  or reduce the armor at index i and calculate the sum. What is the minimal sum plus 1. We can calculate preSum firstly. preSum will help us calculate the sum between [i, j) quickly by using preSum[j] - preSum[i]. Then, we can go through each element, calculate the sum before i and the sum behind i, and the damage at i. Then, we find the min value of the sum.
-
-
+The question can be summarized that if we remove an element at index i  or reduce the armor at index i and calculate the sum. What is the minimal sum plus 1. We can calculate preSum firstly. preSum will help us calculate the sum between [i, j) quickly by using preSum[j] - preSum[i]. Then, we can go through each element, calculate the sum before i and the sum behind i, and the damage at i. Then, we find the min value of the sum. 
 
 ### Python
 ```python
 class Solution:
-def minimumHealth(self, damage: List[int], armor: int) -> int:
-preSum = [0]
-n = len(damage)
-for i in range(n):
-preSum.append(preSum[-1] + damage[i])
-
-
-# sum([i, j)) = preSum[j] - preSum[i]
-ans = float('inf')
-for i in range(n):
-
-
-# use armor at i
-healthBefore = preSum[i] - preSum[0]
-healthAfter = preSum[n] - preSum[i + 1]
-if damage[i] > armor:
-ans = min(ans, healthBefore + (damage[i] - armor) + healthAfter)
-else:
-ans = min(ans, healthBefore + healthAfter)
-return ans + 1
+    def minimumHealth(self, damage: List[int], armor: int) -> int:
+        preSum = [0]
+        n = len(damage)
+        for i in range(n):
+            preSum.append(preSum[-1] + damage[i])
+        # sum([i, j)) = preSum[j] - preSum[i]
+        ans = float('inf')
+        for i in range(n):
+            # use armor at i
+            healthBefore = preSum[i] - preSum[0]
+            healthAfter = preSum[n] - preSum[i + 1]
+            if damage[i] > armor:
+                ans = min(ans, healthBefore + (damage[i] - armor) + healthAfter)
+            else:
+                ans = min(ans, healthBefore + healthAfter)
+        return ans + 1
 ```

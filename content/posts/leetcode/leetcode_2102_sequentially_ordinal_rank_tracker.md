@@ -21,107 +21,106 @@ Implement the SORTracker class:
 SORTracker() Initializes the tracker system.
 void add(string name, int score) Adds a scenic location with name and score to the system.
 string get() Queries and returns the ith best location, where i is the number of times this method has been invoked (including this invocation).
-
+ 
 
 > Example 1:
+
 > Input
 > ["SORTracker", "add", "add", "get", "add", "get", "add", "get", "add", "get", "add", "get", "get"]
 > [[], ["bradford", 2], ["branford", 3], [], ["alps", 2], [], ["orland", 2], [], ["orlando", 3], [], ["alpine", 2], [], []]
 > Output
 > [null, null, null, "branford", null, "alps", null, "bradford", null, "bradford", null, "bradford", "orland"]
+
 > Explanation
 ```
 SORTracker tracker = new SORTracker(); // Initialize the tracker system.
 tracker.add("bradford", 2); // Add location with name="bradford" and score=2 to the system.
 tracker.add("branford", 3); // Add location with name="branford" and score=3 to the system.
 tracker.get();              // The sorted locations, from best to worst, are: branford, bradford.
-// Note that branford precedes bradford due to its higher score (3 > 2).
-// This is the 1st time get() is called, so return the best location: "branford".
+                            // Note that branford precedes bradford due to its higher score (3 > 2).
+                            // This is the 1st time get() is called, so return the best location: "branford".
 tracker.add("alps", 2);     // Add location with name="alps" and score=2 to the system.
 tracker.get();              // Sorted locations: branford, alps, bradford.
-// Note that alps precedes bradford even though they have the same score (2).
-// This is because "alps" is lexicographically smaller than "bradford".
-// Return the 2nd best location "alps", as it is the 2nd time get() is called.
+                            // Note that alps precedes bradford even though they have the same score (2).
+                            // This is because "alps" is lexicographically smaller than "bradford".
+                            // Return the 2nd best location "alps", as it is the 2nd time get() is called.
 tracker.add("orland", 2);   // Add location with name="orland" and score=2 to the system.
 tracker.get();              // Sorted locations: branford, alps, bradford, orland.
-// Return "bradford", as it is the 3rd time get() is called.
+                            // Return "bradford", as it is the 3rd time get() is called.
 tracker.add("orlando", 3);  // Add location with name="orlando" and score=3 to the system.
 tracker.get();              // Sorted locations: branford, orlando, alps, bradford, orland.
-// Return "bradford".
+                            // Return "bradford".
 tracker.add("alpine", 2);   // Add location with name="alpine" and score=2 to the system.
 tracker.get();              // Sorted locations: branford, orlando, alpine, alps, bradford, orland.
-// Return "bradford".
+                            // Return "bradford".
 tracker.get();              // Sorted locations: branford, orlando, alpine, alps, bradford, orland.
-// Return "orland".
-```
+                            // Return "orland".
+``` 
+
 **Constraints:**
+
 > name consists of lowercase English letters, and is unique among all locations.
 > 1 <TeX>\leq</TeX> name.length <TeX>\leq</TeX> 10
 > 1 <TeX>\leq</TeX> score <TeX>\leq</TeX> 105
 > At any time, the number of calls to get does not exceed the number of calls to add.
 > At most 4 * 104 calls in total will be made to add and get.
 
-
 ## Solution
-Solution: We will use heap to solve this problem.
+Solution: We will use heap to solve this problem. 
 
-When we call get, we need the ith largest element. Therefore, we will need the a min Heap to store the the i largest elements and the top of the heap will be the result. Meanwhile, we also need a max Heap to store the rest elements. The max element in the rest elements will be the top of the max Heap. After we call the get, the size of min Heap will increase 1. We will need to pop the top element in the max heap and push it to min Heap.
+When we call get, we need the ith largest element. Therefore, we will need the a min Heap to store the the i largest elements and the top of the heap will be the result. Meanwhile, we also need a max Heap to store the rest elements. The max element in the rest elements will be the top of the max Heap. After we call the get, the size of min Heap will increase 1. We will need to pop the top element in the max heap and push it to min Heap. 
 
 add the method. If the size of min Heap, it means there is no element inside, we can simply add it to min Heap. If the min Heap is not empty, we can compare the min Heap top with current element. If the current element is smaller than the min Heap top, we can simply add the max Heap. If the current element is larger than the min Heap top, we can pop the top of the min heap and push the current element into the min Heap. Meanwhile the previous min Heap top will be push to max Heap.
 
 Meanwhile, we will need implement the __lt__ method to make the comparison possible.
 
-
-
 ### Python
 ```python
 class Location: # MinHeap
-def __init__(self, score, name):
-self.score = score
-self.name = name
-def __lt__(self, other):
-if self.score == other.score:
-return self.name > other.name # lexicographically smaller
-return self.score < other.score
+    def __init__(self, score, name):
+        self.score = score
+        self.name = name
+    def __lt__(self, other):
+        if self.score == other.score:
+            return self.name > other.name # lexicographically smaller 
+        return self.score < other.score
 
 class ReverseLocation: # MaxHeap
-def __init__(self, score, name):
-self.score = score
-self.name = name
-def __lt__(self, other):
-if self.score == other.score:
-return self.name < other.name # lexicographically smaller
-return self.score > other.score
+    def __init__(self, score, name):
+        self.score = score
+        self.name = name
+    def __lt__(self, other):
+        if self.score == other.score:
+            return self.name < other.name # lexicographically smaller 
+        return self.score > other.score
 
 class SORTracker:
 
-def __init__(self):
-self.maxHeap = [] # keep the rest the values.
-
-
-# MaxHeap always us to easily find the max value in the remain value
-self.minHeap = [] # keep the self.k largest values
-self.k = 1
-
-def add(self, name: str, score: int) -> None:
-if len(self.minHeap) < self.k: #
-heappush(self.minHeap, Location(score, name))
-return
-newLocation = Location(score, name)
-if newLocation < self.minHeap[0]:
-heappush(self.maxHeap, ReverseLocation(score, name))
-return
-location = heappop(self.minHeap)
-heappush(self.maxHeap, ReverseLocation(location.score, location.name))
-heappush(self.minHeap, newLocation)
-return
-
-def get(self) -> str:
-ans = self.minHeap[0].name
-if len(self.maxHeap) > 0:
-location = heappop(self.maxHeap)
-heappush(self.minHeap, Location(location.score, location.name))
-self.k += 1
-return ans
+    def __init__(self):
+        self.maxHeap = [] # keep the rest the values. 
+        # MaxHeap always us to easily find the max value in the remain value
+        self.minHeap = [] # keep the self.k largest values
+        self.k = 1
+        
+    def add(self, name: str, score: int) -> None:
+        if len(self.minHeap) < self.k: # 
+            heappush(self.minHeap, Location(score, name))
+            return
+        newLocation = Location(score, name)
+        if newLocation < self.minHeap[0]:
+            heappush(self.maxHeap, ReverseLocation(score, name))
+            return
+        location = heappop(self.minHeap)
+        heappush(self.maxHeap, ReverseLocation(location.score, location.name))
+        heappush(self.minHeap, newLocation)
+        return
+    
+    def get(self) -> str:
+        ans = self.minHeap[0].name
+        if len(self.maxHeap) > 0:
+            location = heappop(self.maxHeap)
+            heappush(self.minHeap, Location(location.score, location.name))
+        self.k += 1
+        return ans
 
 ```

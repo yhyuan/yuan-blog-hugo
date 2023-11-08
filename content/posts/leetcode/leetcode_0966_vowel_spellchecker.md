@@ -6,7 +6,7 @@ draft: false
 description: Solution for leetcode 0966. Vowel Spellchecker
 ---
 
-
+ 
 Given a wordlist, we want to implement a spellchecker that converts a query word into a correct word.
 
 For a given query word, the spell checker handles two categories of spelling mistakes:
@@ -58,40 +58,36 @@ Output: ["yellow"]
 wordlist[i] and queries[i] consist only of only English letters.
 
 
-
-
 ## Solution
-
-
 ### Python
 ```python
 def spellchecker(self, wordlist: List[str], queries: List[str]) -> List[str]:
-words = set(wordlist)
-wordsCap = {}
-wordsVow = {}
-def replaceVowel(word):
-return "".join(list(map(lambda i: "*" if word[i] in "AEIOU" else word[i], range(len(word)))))
-for i in range(len(wordlist)):
-wordUpper = wordlist[i].upper()
-if wordUpper in wordsCap:
-wordsCap[wordUpper] = wordsCap[wordUpper] + [wordlist[i]]
-else:
-wordsCap[wordUpper] = [wordlist[i]]
-wordVowel = replaceVowel(wordUpper)
-if wordVowel in wordsVow:
-wordsVow[wordVowel] = wordsVow[wordVowel] + [wordlist[i]]
-else:
-wordsVow[wordVowel] = [wordlist[i]]
-def processQuery(query):
-if query in words:
-return query
-queryUpper = query.upper()
-if queryUpper in wordsCap:
-return wordsCap[queryUpper][0]
-queryVowel = replaceVowel(queryUpper)
-if queryVowel in wordsVow:
-return wordsVow[queryVowel][0]
-return ""
-return list(map(processQuery, queries))
+  words = set(wordlist)
+  wordsCap = {}
+  wordsVow = {}
+  def replaceVowel(word):
+    return "".join(list(map(lambda i: "*" if word[i] in "AEIOU" else word[i], range(len(word)))))
+  for i in range(len(wordlist)):
+    wordUpper = wordlist[i].upper()
+    if wordUpper in wordsCap:
+      wordsCap[wordUpper] = wordsCap[wordUpper] + [wordlist[i]]
+    else:
+      wordsCap[wordUpper] = [wordlist[i]]
+    wordVowel = replaceVowel(wordUpper)
+    if wordVowel in wordsVow:
+      wordsVow[wordVowel] = wordsVow[wordVowel] + [wordlist[i]]
+    else:
+      wordsVow[wordVowel] = [wordlist[i]]
+  def processQuery(query):
+    if query in words:
+      return query
+    queryUpper = query.upper()
+    if queryUpper in wordsCap:
+      return wordsCap[queryUpper][0]
+    queryVowel = replaceVowel(queryUpper)
+    if queryVowel in wordsVow:
+      return wordsVow[queryVowel][0]
+    return ""
+  return list(map(processQuery, queries))
 
 ```

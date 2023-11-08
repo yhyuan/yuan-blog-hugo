@@ -35,19 +35,7 @@ def processFile(filename):
         lines = list(filter(lambda line: not line.startswith("import LeetCode from \"@/components/LeetCode\";"), lines))
         lines = list(filter(lambda line: not line.startswith("import TeX from '@matejmazur/react-katex';"), lines))
         lines = list(filter(lambda line: not line.startswith("<LeetCode.ProblemCard id={"), lines))
-        lines = list(map(lambda line: line.strip(), lines))
-        in_larger_sign = False
-        new_lines = []
-        for line in lines:
-            if len(line) > 0 and line[0] == ">":
-                in_larger_sign = True
-            if len(line) > 0 and line[0] == "#":
-                new_lines.append("\n")
-                in_larger_sign = False
-            if in_larger_sign and len(line) == 0:
-                continue
-            new_lines.append(line)
-        lines = new_lines
+
     with open("{}/{}".format(dir_path, filename), 'w', encoding="utf8") as outputf:
         outputf.write("\n".join(lines))
 

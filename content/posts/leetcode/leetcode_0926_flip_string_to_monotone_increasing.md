@@ -6,7 +6,7 @@ draft: false
 description: Solution for leetcode 0926. Flip String to Monotone Increasing
 ---
 
-
+ 
 A binary string is monotone increasing if it consists of some number of 0's (possibly none), followed by some number of 1's (also possibly none).
 
 You are given a binary string s. You can flip s[i] changing it from 0 to 1 or from 1 to 0.
@@ -37,35 +37,31 @@ Constraints:
 
 s[i] is either '0' or '1'.
 
-
-
 ## Solution
-If the string s is monotonic increasing, every element before i will be 0 and every element after i will be 1. We will need to try each position. We will need to know the the number of 0 before i and the number of 1 after i. The total will be the number of flipping. We can calculate the total number of 0 and 1 firstly. Then, we scan from left to right and calculate the total number of 0 and 1 on left and right and calculate the flipping.
-
-
+If the string s is monotonic increasing, every element before i will be 0 and every element after i will be 1. We will need to try each position. We will need to know the the number of 0 before i and the number of 1 after i. The total will be the number of flipping. We can calculate the total number of 0 and 1 firstly. Then, we scan from left to right and calculate the total number of 0 and 1 on left and right and calculate the flipping. 
 ### Python
 ```python
 class Solution:
-def minFlipsMonoIncr(self, s: str) -> int:
-def calculateZeroAndOne(s):
-ans = (0, 0)
-n = len(s)
-for i in range(n):
-if s[i] == '0':
-ans = (ans[0] + 1, ans[1])
-else:
-ans = (ans[0], ans[1] + 1)
-return ans
-(zeros, ones) = calculateZeroAndOne(s)
-n = len(s)
-dp = ((0, 0), (zeros, ones))
-ans = zeros
-for i in range(n):
-((leftZeros, leftOnes), (rightZeros, rightOnes)) = dp
-if s[i] == '0':
-dp = ((leftZeros + 1, leftOnes), (rightZeros - 1, rightOnes))
-else:
-dp = ((leftZeros, leftOnes + 1), (rightZeros, rightOnes - 1))
-ans = min(ans, dp[0][1] + dp[1][0])
-return ans
+    def minFlipsMonoIncr(self, s: str) -> int:
+        def calculateZeroAndOne(s):
+            ans = (0, 0)
+            n = len(s)
+            for i in range(n):
+                if s[i] == '0':
+                    ans = (ans[0] + 1, ans[1])
+                else:
+                    ans = (ans[0], ans[1] + 1)
+            return ans
+        (zeros, ones) = calculateZeroAndOne(s)
+        n = len(s)
+        dp = ((0, 0), (zeros, ones))
+        ans = zeros
+        for i in range(n):
+            ((leftZeros, leftOnes), (rightZeros, rightOnes)) = dp
+            if s[i] == '0':
+                dp = ((leftZeros + 1, leftOnes), (rightZeros - 1, rightOnes))
+            else:
+                dp = ((leftZeros, leftOnes + 1), (rightZeros, rightOnes - 1))
+            ans = min(ans, dp[0][1] + dp[1][0])
+        return ans
 ```
