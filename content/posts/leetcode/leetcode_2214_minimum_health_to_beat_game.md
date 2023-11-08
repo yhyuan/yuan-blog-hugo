@@ -5,10 +5,7 @@ tags: ['leetcode', 'python']
 draft: false
 description: Solution for leetcode 2214. Minimum Health to Beat Game
 ---
-import LeetCode from "@/components/LeetCode";
-import TeX from '@matejmazur/react-katex';
 
-<LeetCode.ProblemCard id={2214}/>
 
 You are playing a game that has n levels numbered from 0 to n - 1. You are given a 0-indexed integer array damage where damage[i] is the amount of health you will lose to complete the ith level.
 
@@ -60,26 +57,34 @@ n <TeX><TeX>=</TeX><TeX>=</TeX></TeX> damage.length
 
 0 <TeX>\leq</TeX> armor <TeX>\leq</TeX> 105
 
+
+
 ## Solution
-The question can be summarized that if we remove an element at index i  or reduce the armor at index i and calculate the sum. What is the minimal sum plus 1. We can calculate preSum firstly. preSum will help us calculate the sum between [i, j) quickly by using preSum[j] - preSum[i]. Then, we can go through each element, calculate the sum before i and the sum behind i, and the damage at i. Then, we find the min value of the sum. 
+The question can be summarized that if we remove an element at index i  or reduce the armor at index i and calculate the sum. What is the minimal sum plus 1. We can calculate preSum firstly. preSum will help us calculate the sum between [i, j) quickly by using preSum[j] - preSum[i]. Then, we can go through each element, calculate the sum before i and the sum behind i, and the damage at i. Then, we find the min value of the sum.
+
+
 
 ### Python
 ```python
 class Solution:
-    def minimumHealth(self, damage: List[int], armor: int) -> int:
-        preSum = [0]
-        n = len(damage)
-        for i in range(n):
-            preSum.append(preSum[-1] + damage[i])
-        # sum([i, j)) = preSum[j] - preSum[i]
-        ans = float('inf')
-        for i in range(n):
-            # use armor at i
-            healthBefore = preSum[i] - preSum[0]
-            healthAfter = preSum[n] - preSum[i + 1]
-            if damage[i] > armor:
-                ans = min(ans, healthBefore + (damage[i] - armor) + healthAfter)
-            else:
-                ans = min(ans, healthBefore + healthAfter)
-        return ans + 1
+def minimumHealth(self, damage: List[int], armor: int) -> int:
+preSum = [0]
+n = len(damage)
+for i in range(n):
+preSum.append(preSum[-1] + damage[i])
+
+
+# sum([i, j)) = preSum[j] - preSum[i]
+ans = float('inf')
+for i in range(n):
+
+
+# use armor at i
+healthBefore = preSum[i] - preSum[0]
+healthAfter = preSum[n] - preSum[i + 1]
+if damage[i] > armor:
+ans = min(ans, healthBefore + (damage[i] - armor) + healthAfter)
+else:
+ans = min(ans, healthBefore + healthAfter)
+return ans + 1
 ```

@@ -5,11 +5,8 @@ tags: ['leetcode', 'python', 'medium']
 draft: false
 description: Solution for leetcode 0348. Design Tic-Tac-Toe
 ---
-import LeetCode from "@/components/LeetCode";
-import TeX from '@matejmazur/react-katex';
 
-<LeetCode.ProblemCard id={348}/>
- Assume the following rules are for the tic-tac-toe game on an n x n board between two players:
+Assume the following rules are for the tic-tac-toe game on an n x n board between two players:
 
 A move is guaranteed to be valid and is placed on an empty block.
 
@@ -32,7 +29,7 @@ Output
 
 [null, 0, 0, 0, 0, 0, 0, 1]
 
-Explanation 
+Explanation
 ```
 TicTacToe ticTacToe = new TicTacToe(3);
 Assume that player 1 is "X" and player 2 is "O" in the board.
@@ -86,64 +83,82 @@ At most n2 calls will be made to move.
 
 Follow-up: Could you do better than O(n2) per move() operation?
 
+
+
 ## Python
+
+
 ### Python
 ```python
 class TicTacToe:
 
-    def __init__(self, n: int):
-        # self.board = [["" for i in range(n)] for j in range(n)]
-        self.rowsCount = [{"X": 0, "O": 0} for i in range(n)]
-        self.columsCount = [{"X": 0, "O": 0} for i in range(n)]
-        self.crossCount = {"X": 0, "O": 0}
-        self.antiCrossCount = {"X": 0, "O": 0}
-        
-    def checkState(self):
-        # 0 we 
-        # print(self.board)
-        n = len(self.rowsCount)
-        for i in range(n):
-            if self.rowsCount[i]["X"] == n:
-                return 1
-            if self.rowsCount[i]["O"] == n:
-                return 2
-            if self.columsCount[i]["X"] == n:
-                return 1
-            if self.columsCount[i]["O"] == n:
-                return 2
-        if self.crossCount["X"] == n:
-            return 1
-        if self.crossCount["O"] == n:
-            return 2
-        if self.antiCrossCount["X"] == n:
-            return 1
-        if self.antiCrossCount["O"] == n:
-            return 2
-        return 0
+def __init__(self, n: int):
 
-    def move(self, row: int, col: int, player: int) -> int:
-        n = len(self.rowsCount)
-        # if row < 0 or row >= n or col < 0 or col >= n or self.board[row][col] != ""
-        if player == 1:
-            self.rowsCount[row]["X"] += 1
-            self.columsCount[col]["X"] += 1
-            if row == col:
-                self.crossCount["X"] += 1
-            if row == n - 1 - col:
-                self.antiCrossCount["X"] += 1
-        else:
-            self.rowsCount[row]["O"] += 1
-            self.columsCount[col]["O"] += 1
-            if row == col:
-                self.crossCount["O"] += 1
-            if row == n - 1 - col:
-                self.antiCrossCount["O"] += 1
-        
-        return self.checkState()
+
+# self.board = [["" for i in range(n)] for j in range(n)]
+self.rowsCount = [{"X": 0, "O": 0} for i in range(n)]
+self.columsCount = [{"X": 0, "O": 0} for i in range(n)]
+self.crossCount = {"X": 0, "O": 0}
+self.antiCrossCount = {"X": 0, "O": 0}
+
+def checkState(self):
+
+
+# 0 we
+
+
+# print(self.board)
+n = len(self.rowsCount)
+for i in range(n):
+if self.rowsCount[i]["X"] == n:
+return 1
+if self.rowsCount[i]["O"] == n:
+return 2
+if self.columsCount[i]["X"] == n:
+return 1
+if self.columsCount[i]["O"] == n:
+return 2
+if self.crossCount["X"] == n:
+return 1
+if self.crossCount["O"] == n:
+return 2
+if self.antiCrossCount["X"] == n:
+return 1
+if self.antiCrossCount["O"] == n:
+return 2
+return 0
+
+def move(self, row: int, col: int, player: int) -> int:
+n = len(self.rowsCount)
+
+
+# if row < 0 or row >= n or col < 0 or col >= n or self.board[row][col] != ""
+if player == 1:
+self.rowsCount[row]["X"] += 1
+self.columsCount[col]["X"] += 1
+if row == col:
+self.crossCount["X"] += 1
+if row == n - 1 - col:
+self.antiCrossCount["X"] += 1
+else:
+self.rowsCount[row]["O"] += 1
+self.columsCount[col]["O"] += 1
+if row == col:
+self.crossCount["O"] += 1
+if row == n - 1 - col:
+self.antiCrossCount["O"] += 1
+
+return self.checkState()
+
+
 
 
 # Your TicTacToe object will be instantiated and called as such:
+
+
 # obj = TicTacToe(n)
+
+
 # param_1 = obj.move(row,col,player)
 
 ```

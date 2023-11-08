@@ -5,40 +5,28 @@ tags: ['leetcode', 'rust', 'medium']
 draft: false
 description: Solution for leetcode 0386 lexicographical numbers
 ---
-import LeetCode from "@/components/LeetCode";
-import TeX from '@matejmazur/react-katex';
 
-<LeetCode.ProblemCard id={386}/>
- 
 
-  Given an integer n, return all the numbers in the range [1, n] sorted in lexicographical order.
 
-  You must write an algorithm that runs in O(n) time and uses O(1) extra space. 
+Given an integer n, return all the numbers in the range [1, n] sorted in lexicographical order.
 
-   
+You must write an algorithm that runs in O(n) time and uses O(1) extra space.
 
- >   Example 1:
 
- >   Input: n <TeX>=</TeX> 13
 
- >   Output: [1,10,11,12,13,2,3,4,5,6,7,8,9]
-
- >   Example 2:
-
- >   Input: n <TeX>=</TeX> 2
-
- >   Output: [1,2]
-
-   
-
-  **Constraints:**
-
-  
-
- >   	1 <TeX>\leq</TeX> n <TeX>\leq</TeX> 5  10^4
+>   Example 1:
+>   Input: n <TeX>=</TeX> 13
+>   Output: [1,10,11,12,13,2,3,4,5,6,7,8,9]
+>   Example 2:
+>   Input: n <TeX>=</TeX> 2
+>   Output: [1,2]
+**Constraints:**
+>   	1 <TeX>\leq</TeX> n <TeX>\leq</TeX> 5  10^4
 
 
 ## Solution
+
+
 ### Rust
 ```rust
 pub struct Solution {}
@@ -47,45 +35,49 @@ pub struct Solution {}
 // submission codes start here
 
 impl Solution {
-    pub fn lexical_order(n: i32) -> Vec<i32> {
-        if n <= 9 {
-            return (1..=n).into_iter().collect::<Vec<i32>>();
-        }
-        let m = format!("{}", n).len();
-        let mut nums: Vec<i32> = vec![];
-        let mut k = 0;
-        let n = n as u32;
-        let pow_val = 10u32.pow(m as u32 - 1);
-        for i in pow_val..=n {
-            for j in (1..m as u32).rev() {
-                let pow = 10u32.pow(j);
-                if i % pow == 0 {
-                    nums.push(i as i32 / pow as i32);
-                    k += 1;
-                }
-            }
-            nums.push(i as i32);
-        }
-        let pre_nums = Self::lexical_order(pow_val as i32 - 1);
-        for i in k..pre_nums.len() {
-            nums.push(pre_nums[i]);
-        }
-        nums
-    }
+pub fn lexical_order(n: i32) -> Vec<i32> {
+if n <= 9 {
+return (1..=n).into_iter().collect::<Vec<i32>>();
+}
+let m = format!("{}", n).len();
+let mut nums: Vec<i32> = vec![];
+let mut k = 0;
+let n = n as u32;
+let pow_val = 10u32.pow(m as u32 - 1);
+for i in pow_val..=n {
+for j in (1..m as u32).rev() {
+let pow = 10u32.pow(j);
+if i % pow == 0 {
+nums.push(i as i32 / pow as i32);
+k += 1;
+}
+}
+nums.push(i as i32);
+}
+let pre_nums = Self::lexical_order(pow_val as i32 - 1);
+for i in k..pre_nums.len() {
+nums.push(pre_nums[i]);
+}
+nums
+}
 }
 
 // submission codes end
 
+
+
 #[cfg(test)]
 mod tests {
-    use super::*;
+use super::*;
 
-    #[test]
-    fn test_386() {
-        assert_eq!(Solution::lexical_order(13), vec![1,10,11,12,13,2,3,4,5,6,7,8,9]);
-        assert_eq!(Solution::lexical_order(2), vec![1,2]);
-        assert_eq!(Solution::lexical_order(100), vec![1,10,100,11,12,13,14,15,16,17,18,19,2,20,21,22,23,24,25,26,27,28,29,3,30,31,32,33,34,35,36,37,38,39,4,40,41,42,43,44,45,46,47,48,49,5,50,51,52,53,54,55,56,57,58,59,6,60,61,62,63,64,65,66,67,68,69,7,70,71,72,73,74,75,76,77,78,79,8,80,81,82,83,84,85,86,87,88,89,9,90,91,92,93,94,95,96,97,98,99]);
-    }
+
+
+#[test]
+fn test_386() {
+assert_eq!(Solution::lexical_order(13), vec![1,10,11,12,13,2,3,4,5,6,7,8,9]);
+assert_eq!(Solution::lexical_order(2), vec![1,2]);
+assert_eq!(Solution::lexical_order(100), vec![1,10,100,11,12,13,14,15,16,17,18,19,2,20,21,22,23,24,25,26,27,28,29,3,30,31,32,33,34,35,36,37,38,39,4,40,41,42,43,44,45,46,47,48,49,5,50,51,52,53,54,55,56,57,58,59,6,60,61,62,63,64,65,66,67,68,69,7,70,71,72,73,74,75,76,77,78,79,8,80,81,82,83,84,85,86,87,88,89,9,90,91,92,93,94,95,96,97,98,99]);
+}
 }
 
 //"9", "90", "900", "901", "902", "903", "904", "905", "906", "907", "908", "909", "91", "910", "911", "912", "913", "914", "915", "916", "917", "918", "919", "92", "920", "921", "922", "923", "924", "925", "926", "927", "928", "929", "93", "930", "931", "932", "933", "934", "935", "936", "937", "938", "939", "94", "940", "941", "942", "943", "944", "945", "946", "947", "948", "949", "95", "950", "951", "952", "953", "954", "955", "956", "957", "958", "959", "96", "960", "961", "962", "963", "964", "965", "966", "967", "968", "969", "97", "970", "971", "972", "973", "974", "975", "976", "977", "978", "979", "98", "980", "981", "982", "983", "984", "985", "986", "987", "988", "989", "99", "990", "991", "992", "993", "994", "995", "996", "997", "998", "999"

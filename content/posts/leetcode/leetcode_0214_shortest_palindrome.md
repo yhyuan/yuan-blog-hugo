@@ -5,42 +5,29 @@ tags: ['leetcode', 'rust', 'hard']
 draft: false
 description: Solution for leetcode 0214 shortest palindrome
 ---
-import LeetCode from "@/components/LeetCode";
-import TeX from '@matejmazur/react-katex';
 
-<LeetCode.ProblemCard id={214}/>
- 
 
-  You are given a string s. You can convert s to a palindrome by adding characters in front of it.
 
-  Return the shortest palindrome you can find by performing this transformation.
+You are given a string s. You can convert s to a palindrome by adding characters in front of it.
 
-   
+Return the shortest palindrome you can find by performing this transformation.
 
- >   Example 1:
 
- >   Input: s <TeX>=</TeX> "aacecaaa"
 
- >   Output: "aaacecaaa"
-
- >   Example 2:
-
- >   Input: s <TeX>=</TeX> "abcd"
-
- >   Output: "dcbabcd"
-
-   
-
-  **Constraints:**
-
-  
-
- >   	0 <TeX>\leq</TeX> s.length <TeX>\leq</TeX> 5  10^4
-
- >   	s consists of lowercase English letters only.
+>   Example 1:
+>   Input: s <TeX>=</TeX> "aacecaaa"
+>   Output: "aaacecaaa"
+>   Example 2:
+>   Input: s <TeX>=</TeX> "abcd"
+>   Output: "dcbabcd"
+**Constraints:**
+>   	0 <TeX>\leq</TeX> s.length <TeX>\leq</TeX> 5  10^4
+>   	s consists of lowercase English letters only.
 
 
 ## Solution
+
+
 ### Rust
 ```rust
 pub struct Solution {}
@@ -91,103 +78,107 @@ Copy
 我的 next 数组 next[i] 所考虑的对应字符串不包含 s[i]
 */
 impl Solution {
-    /*
-    pub fn shortest_palindrome(s: String) -> String {
-        let n = s.len();
-        let s_new: Vec<char> = s.chars().chain(std::iter::once('#')).chain(s.chars().rev()).collect();
-        let n_new = s_new.len();
-        let mut f = vec![0; n_new];
-        for i in 1..n_new {
-            let mut t = f[i - 1];
-            while t > 0 && s_new[i] != s_new[t] {
-                t = f[t - 1];
-            }
-            if s_new[i] == s_new[t] {
-                t += 1;
-            }
-            f[i] = t;
-        }
-        s.chars()
-            .rev()
-            .take(n - f.last().unwrap())
-            .chain(s.chars())
-            .collect()
-    }
-    */
-    pub fn shortest_palindrome(s: String) -> String {
-        let n = s.len();
-        if n == 1 || n == 0 {
-            return s;
-        }
-        let chars: Vec<char> = s.chars().collect();
-        let mut dp_row = vec![false; n];
-        dp_row[n - 1] = true;
-        for i in (0..n - 1).rev() {
-            dp_row[i] = true;
-            // dp_row[i + 1] = chars[i] == chars[i + 1];
-            for j in (i + 1..n).rev() {
-                dp_row[j] = dp_row[j - 1] && chars[i] == chars[j];
-            }
-        }
-        let mut index = usize::MAX;
-        for i in (0..n).rev() {
-            if dp_row[i] {
-                index = i;
-                break;
-            }
-        }
-        //println!("dp_row: {:?}", dp_row);
-        //println!("index: {}", index);
-        let mut new_chars: Vec<char> = chars.clone();        
-        for i in index + 1..n {
-            new_chars.insert(0, chars[i]);
-        }
+/*
+pub fn shortest_palindrome(s: String) -> String {
+let n = s.len();
+let s_new: Vec<char> = s.chars().chain(std::iter::once('#')).chain(s.chars().rev()).collect();
+let n_new = s_new.len();
+let mut f = vec![0; n_new];
+for i in 1..n_new {
+let mut t = f[i - 1];
+while t > 0 && s_new[i] != s_new[t] {
+t = f[t - 1];
+}
+if s_new[i] == s_new[t] {
+t += 1;
+}
+f[i] = t;
+}
+s.chars()
+.rev()
+.take(n - f.last().unwrap())
+.chain(s.chars())
+.collect()
+}
+*/
+pub fn shortest_palindrome(s: String) -> String {
+let n = s.len();
+if n == 1 || n == 0 {
+return s;
+}
+let chars: Vec<char> = s.chars().collect();
+let mut dp_row = vec![false; n];
+dp_row[n - 1] = true;
+for i in (0..n - 1).rev() {
+dp_row[i] = true;
+// dp_row[i + 1] = chars[i] == chars[i + 1];
+for j in (i + 1..n).rev() {
+dp_row[j] = dp_row[j - 1] && chars[i] == chars[j];
+}
+}
+let mut index = usize::MAX;
+for i in (0..n).rev() {
+if dp_row[i] {
+index = i;
+break;
+}
+}
+//println!("dp_row: {:?}", dp_row);
+//println!("index: {}", index);
+let mut new_chars: Vec<char> = chars.clone();
+for i in index + 1..n {
+new_chars.insert(0, chars[i]);
+}
 
-        /*
-        let mut dp: Vec<Vec<bool>> = vec![vec![false; n]; n];
-        for i in 0..n {
-            dp[i][i] = true;
-        }
-        for i in 1..n {
-            dp[i - 1][i] = chars[i - 1] == chars[i];
-        }
-        for i in (0..n - 1).rev() {
-            for j in i + 2..n {
-                dp[i][j] = dp[i + 1][j - 1] && chars[i] == chars[j];
-            }
-        }
-        let mut index = usize::MAX;
-        for i in (0..n).rev() {
-            if dp[0][i] {
-                index = i;
-                break;
-            }
-        }
-        
-        // println!("dp: {:?}", dp);
-        // println!("index: {:?}", index);
-        let mut new_chars: Vec<char> = chars.clone();
-        for i in index + 1..n {
-            new_chars.insert(0, chars[i]);
-        }
-        */
-        // println!("new_chars: {:?}", new_chars);
-        let str: String = new_chars.iter().collect();
-        str
-    }
+/*
+let mut dp: Vec<Vec<bool>> = vec![vec![false; n]; n];
+for i in 0..n {
+dp[i][i] = true;
+}
+for i in 1..n {
+dp[i - 1][i] = chars[i - 1] == chars[i];
+}
+for i in (0..n - 1).rev() {
+for j in i + 2..n {
+dp[i][j] = dp[i + 1][j - 1] && chars[i] == chars[j];
+}
+}
+let mut index = usize::MAX;
+for i in (0..n).rev() {
+if dp[0][i] {
+index = i;
+break;
+}
+}
+
+// println!("dp: {:?}", dp);
+// println!("index: {:?}", index);
+let mut new_chars: Vec<char> = chars.clone();
+for i in index + 1..n {
+new_chars.insert(0, chars[i]);
+}
+*/
+// println!("new_chars: {:?}", new_chars);
+let str: String = new_chars.iter().collect();
+str
+}
 }
 
 // submission codes end
 
+
+
 #[cfg(test)]
 mod tests {
-    use super::*;
+use super::*;
 
-    #[test]
-    fn test_214() {
-        assert_eq!(Solution::shortest_palindrome("aacecaaa".to_string()), "aaacecaaa".to_string());
-        assert_eq!(Solution::shortest_palindrome("abcd".to_string()), "dcbabcd".to_string());
-    }
+
+
+#[test]
+fn test_214() {
+assert_eq!(Solution::shortest_palindrome("aacecaaa".to_string()), "aaacecaaa".to_string());
+assert_eq!(Solution::shortest_palindrome("abcd".to_string()), "dcbabcd".to_string());
+}
 }
 
 ```
