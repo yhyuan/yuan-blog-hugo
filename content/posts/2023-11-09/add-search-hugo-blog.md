@@ -1,6 +1,7 @@
 ---
 title: "Add Search to Hugo Blog"
 date: 2023-11-09T09:23:05-05:00
+tags: ['Hugo']
 draft: false
 ---
 

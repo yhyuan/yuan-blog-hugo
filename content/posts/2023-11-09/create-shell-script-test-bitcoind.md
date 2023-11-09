@@ -1,6 +1,7 @@
 ---
 title: "Create Shell Script Test Bitcoind"
 date: 2023-11-09T10:36:00-05:00
+tags: ['Bitcoin', 'Shell', 'Automation']
 draft: false
 ---
 

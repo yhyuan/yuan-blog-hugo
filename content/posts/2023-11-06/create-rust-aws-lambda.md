@@ -2,6 +2,7 @@
 title: "Create Rust Aws Lambda"
 date: 2023-11-06T13:30:29-05:00
 draft: false
+tags: ['rust', 'AWS', 'lambda']
 ---
 
 Here is the notes for learning [this tutorial](https://blog.scanner.dev/getting-started-with-serverless-rust-in-aws-lambda/)

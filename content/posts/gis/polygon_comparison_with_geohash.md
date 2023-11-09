@@ -1,7 +1,7 @@
 ---
 title: Polygon Comparison with Geohash
 date: '2022-10-22'
-tags: ['gis']
+tags: ['GIS']
 draft: false
 description: Polygon Comparison with Geohash
 ---
