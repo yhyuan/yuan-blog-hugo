@@ -16,7 +16,6 @@ var fuseOptions = {
   ]
 };
 
-
 var searchQuery = param("s");
 if(searchQuery){
   $("#search-query").val(searchQuery);
@@ -25,14 +24,11 @@ if(searchQuery){
   $('#search-results').append("<p>Please enter a word or phrase above</p>");
 }
 
-
-
 function executeSearch(searchQuery){
   $.getJSON( "/index.json", function( data ) {
     var pages = data;
     var fuse = new Fuse(pages, fuseOptions);
     var result = fuse.search(searchQuery);
-    console.log({"matches":result});
     if(result.length > 0){
       populateResults(result);
     }else{
