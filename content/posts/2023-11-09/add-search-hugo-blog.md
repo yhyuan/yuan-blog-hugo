@@ -4,7 +4,7 @@ date: 2023-11-09T09:23:05-05:00
 draft: true
 ---
 
-
+Based on [this tutorial](https://gist.github.com/ludard/cac7ec7f9c1b167dbcb8b87210c72956)
 ## Add the file shown here in root directory or under themes/<themeName>
 ### content/search.md
 ```

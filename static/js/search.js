@@ -25,7 +25,9 @@ if(searchQuery){
 }
 
 function executeSearch(searchQuery){
-  $.getJSON( "/index.json", function( data ) {
+  var lastSlashPosition = window.location.href.lastIndexOf('search/?');
+  var url_segment = window.location.href.substring(0, lastSlashPosition);
+  $.getJSON( url_segment + "index.json", function( data ) {
     var pages = data;
     var fuse = new Fuse(pages, fuseOptions);
     var result = fuse.search(searchQuery);
