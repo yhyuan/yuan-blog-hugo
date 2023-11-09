@@ -1,7 +1,7 @@
 ---
 title: "Add Search to Hugo Blog"
 date: 2023-11-09T09:23:05-05:00
-draft: true
+draft: false
 ---
 
 Based on [this tutorial](https://gist.github.com/ludard/cac7ec7f9c1b167dbcb8b87210c72956)
