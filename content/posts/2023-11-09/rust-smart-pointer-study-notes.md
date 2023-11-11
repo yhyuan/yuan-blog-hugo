@@ -19,7 +19,7 @@ struct Person<'a> {
 * Add super powers to pointers: Additional functionality, e.g. shared ownership/reference counting.  
 * Simplify code
 
-### Box<T>
+### Box`<T>`
 allocates memory on the heap and allows to move the ownership of value from the stack to the heap. 
 #### Use cases
 * Storing large data structure, which may cause stack overflows. 
@@ -56,7 +56,7 @@ fn main () {
 }
 ```
 
-### Rc<T>
+### Rc`<T>`
 reference counting. enable shared ownership of a value, allowing multiple parts of your code to have read-only access to the same data without cloning. 
 
 #### Example
@@ -88,7 +88,7 @@ fn main() {
 * Rc<T> is not thread-safe. Use Arc<T> instead. 
 * Rc<T> does not support interior mutability out of the box. You will need RefCell<T> with Rc<T> to get mutable access to the underlying data. 
 
-### Arc<T> 
+### Arc`<T>` 
 share the data structures between threads, at cost of performance. 
 ### Example
 ```rust
@@ -115,7 +115,7 @@ fn main() {
 ### Other
 Mutex<T> and RwLock<T>
 
-### RefCell<T>
+### RefCell`<T>`
 interior mutability means that you can mutate the dat astored in a RefCell<T> even if the RefCell<T> itself is not mutable. 
 It moves the borrowing rules enforcement from compile-time to run time. 
 #### Example
@@ -134,7 +134,37 @@ fn main() {
 }
 ```
 
-### Mutex<T>
-provides exclusive, mutable access to data in a multi-threaded environment. mutual exclusion and is used to protect the shared data from data races. 
+### Mutex`<T>`
+provides exclusive, mutable access to data in a multi-threaded environment. mutual exclusion and is used to protect the shared data from data races. Only one writable lock. 
+#### Example
+```rust
+use std::sync::{Arc, Mutex};
+use std::thread;
 
-### RwLock<T>
+fn main() {
+    let counter = Arc::new(Mutex::new(0));
+    let mut handles = vec![];
+
+    for _ in 0..10 {
+        let coutner_clone = Arc::clone(&counter);
+        let handle = thread::spawn(move || {
+            let mut num = counter_clone.lock().unwrap();
+            *num += 1;
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("counter: {}", *counter.lock().unwrap());
+}
+```
+
+### RwLock`<T>`
+#### Mutex`<T>` vs RwLock`<T>`
+* Mutex: only one thread can access the data in a time, whether it is for reading or writing. The data is frequently updated and there is no need to separate the write and read locks.
+* RwLock allows multiple threads to read the data in the same time, but requires esxclusive access for writing. The data is more frequently read than it is updated. Allowing multiple concurrent readers can improve the performance. 
+
+### Drop, Deref, DerefMut trait

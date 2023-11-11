@@ -1,6 +1,7 @@
 ---
 title: "Compile Bitcoin Ubuntu"
 date: 2023-11-10T21:09:16-05:00
+tags: ['Bitcoin', 'Ubuntu']
 draft: false
 ---
 
