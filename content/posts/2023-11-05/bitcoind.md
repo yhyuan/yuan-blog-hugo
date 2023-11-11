@@ -46,6 +46,16 @@ zmqpubhashblock=tcp://127.0.0.1:28335
 [Sig] [PK] OP_DUP op_HASH160 [PKHash] OP_EQUALVERIFY OP_CHECKSIG
 ```
 ## bitcoin-cli command examples
+### createwallet
+```
+bitcoin-cli createwallet "Your name"
+```
+### createwallet
+```
+bitcoin-cli getnewaddress
+bitcoin-cli getnewaddress "p2sh_address" p2sh-segwit
+bitcoin-cli getnewaddress "legacy_address" legacy
+```
 ### listunspent
 ```
 bitcoin-cli listunspent
