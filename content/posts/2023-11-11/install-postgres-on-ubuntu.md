@@ -16,6 +16,12 @@ sudo apt install postgresql postgresql-contrib -y
 ps aux | grep postgres
 ```
 
+### Start service
+If it is not started, start the service. 
+```
+sudo systemctl start postgresql.service
+```
+
 ### Log in with `postgres`
 ```
 sudo -i -u postgres
@@ -25,4 +31,52 @@ Type "help" for help.
 
 postgres=# \q
 exit
+```
+or use the following command to enter.
+```
+sudo -u postgres psql
+```
+
+### Create User Role
+If you do not want to switch the account, use 
+```
+sudo -u postgres createuser --interactive
+```
+If you are in postgres account, use 
+```
+createuser --interactive
+```
+
+### Create a new database
+If you do not want to switch the account, use 
+```
+sudo -u postgres createdb sammy
+```
+If you are in postgres account, use 
+```
+createdb sammy
+```
+
+### Use the new user role
+```
+sudo adduser sammy
+```
+use 
+```shell
+sudo -i -u sammy
+psql
+```
+or `sudo -u sammy psql`
+
+If you want to connect a database, use `psql -d postgres`
+
+Use `\conninfo` to check the connection information. 
+
+### List the tables
+```
+\d
+```
+or 
+```
+\dt
 ```

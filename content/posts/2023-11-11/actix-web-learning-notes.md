@@ -348,3 +348,78 @@ mod tests {
     }
 }
 ```
+
+### Example with Service and Database
+#### Create new project
+Add the following code to Cargo.toml.
+```toml
+[workspace]
+members = ["tutor-nodb", "tutor-db"]
+```
+Create new project
+```shell
+cargo new tutor-db
+cd tutor-db
+export PROJECT_ROOT=.
+```
+#### Add crates to Cargo.toml
+```shell
+cargo add actix-web
+cargo add actix-rt
+cargo add dotenv
+cargo add sqlx
+cargo add serde
+cargo add chrono
+cargo add openssl
+```
+Cargo.toml
+```toml
+[dependencies]
+actix-rt = "2.9.0"
+actix-web = "4.4.0"
+dotenv = "0.15.0"
+sqlx = { version = "0.7.2", default-features = false, features = ["postgres", "runtime-tokio-native-tls", "macros", "chrono"]}
+chrono = { version = "0.4.31", features = ["serde"] }
+openssl = { version = "0.10.59", features = ["vendored"]}
+serde = { version = "1.0.192", features = ["derive"]}
+```
+#### Create Datbase and User
+```shell
+❯ sudo -i -u postgres
+[sudo] password for yyh: 
+postgres@yyh-Macmini:~$ psql
+psql (14.9 (Ubuntu 14.9-0ubuntu0.22.04.1))
+Type "help" for help.
+
+postgres=# create database ezytutors;
+CREATE DATABASE
+postgres=# create user truuser with password 'mypassword';
+CREATE ROLE
+postgres=# grant all privileges on database ezytutors to truuser;
+GRANT
+postgres=# \q
+postgres@yyh-Macmini:~$ exit
+logout
+```
+
+```shell
+export DATABASE_USER=truuser
+psql -U $DATABASE_USER -d ezytutors --password
+```
+#### update state.rs
+Replace `pub courses: Mutex<Vec<Course>>` with `pub db: PgPool,`.
+
+#### Update main.rs
+```rust
+use dotenv::dotenv;
+use sqlx::postgres::PgPool;
+```
+Add the following code to `main()`,
+```rust
+dotenv().ok();
+let database_url = env::var("DATABASE_URL").expect("DATABASE_URL is not set in .env file");
+let db_pool = PgPool::connect(&database_url).await.unwrap();
+
+```
+
+Reference: Rust Servers, Services, and Apps
