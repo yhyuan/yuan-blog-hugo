@@ -73,6 +73,7 @@ bitcoin-cli listunspent
     "desc": "sh(wpkh([d697f246/0'/0'/0']029533e360bc3d270c0ace89dd5527190d1d3394a269cae64c89860d20fea701eb))#wj2c7p26",
     "safe": true
 },
+bitcoin-cli listunspent 6 9999999 "[\"bc1q09vm5lfy0j5reeulh4x5752q25uqqvz34hufdl\",\"bc1q02ad21edsxd23d32dfgqqsz4vv4nmtfzuklhy3\"]"
 ```
 ### createrawtransaction
 ```
