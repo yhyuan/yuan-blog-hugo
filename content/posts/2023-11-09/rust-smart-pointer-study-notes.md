@@ -167,4 +167,7 @@ fn main() {
 * Mutex: only one thread can access the data in a time, whether it is for reading or writing. The data is frequently updated and there is no need to separate the write and read locks.
 * RwLock allows multiple threads to read the data in the same time, but requires esxclusive access for writing. The data is more frequently read than it is updated. Allowing multiple concurrent readers can improve the performance. 
 
+### Cow`<T>`
+Smart pointer with clone-on-write, which can be used with owned or borrowed data. When you need heap-allocated data with clone-on-write functionality
+
 ### Drop, Deref, DerefMut trait
