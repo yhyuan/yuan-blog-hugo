@@ -31,3 +31,5 @@ $ cargo build
 * `cargo install cargo-fuzz`: let’s you easily integrate with libFuzzer for fuzz testing.
 * `cargo install cargo-watch`: automates re-running Cargo commands on code changes.
 * `cargo install cargo-tree`: lets you visualize project dependency trees
+* `cargo install -f cargo-outdated`: outdated dependencies
+* `cargo install -f cargo-audit`: avoid vunnerability
