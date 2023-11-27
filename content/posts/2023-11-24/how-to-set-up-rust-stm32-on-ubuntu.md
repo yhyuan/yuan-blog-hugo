@@ -173,3 +173,7 @@ fn main() -> ! {
     }
 }
 ```
+
+## Reference
+* [black-pill-rust](https://github.com/viktorchvatal/black-pill-rust/tree/master)
+* [stm32f411ceu6](https://github.com/topics/stm32f411ceu6)
