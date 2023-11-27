@@ -10,7 +10,7 @@ Recently, I noticed that the jest failed to render a injected JavaScript. I figu
 
 ## Solution
 Add the following settings to jest configure file (assuming JSDOM is used.)
-```json
+```
    testEnvironment: 'jsdom',
     testEnvironmentOptions: {
         resources: 'usable',
