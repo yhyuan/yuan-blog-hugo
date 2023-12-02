@@ -1,6 +1,7 @@
 ---
 title: "How to Set Up Rust Stm32 on Ubuntu"
 date: 2023-11-24T19:12:20-05:00
+tags: ['Rust', 'Stm32', 'Ubuntu']
 draft: false
 ---
 
