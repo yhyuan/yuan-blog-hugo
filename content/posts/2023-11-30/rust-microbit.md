@@ -1,6 +1,7 @@
 ---
-title: "Rust Microbit"
+title: "Rust Microbit on Ubuntu"
 date: 2023-11-30T22:29:56-05:00
+tags: ['Rust', 'Microbit', 'Ubuntu']
 draft: false
 ---
 
@@ -39,4 +40,26 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE:="666"
 Then reload the udev rules with:
 ```
 $ sudo udevadm control --reload-rules
+```
+```
+$ lsusb | grep -i "NXP ARM mbed"
+Bus 001 Device 065: ID 0d28:0204 NXP ARM mbed
+$ # ^^^        ^^^
+```
+modify `Embed.toml`
+```
+[default.general]
+# chip = "nrf52833_xxAA" # uncomment this line for micro:bit V2
+# chip = "nrf51822_xxAA" # uncomment this line for micro:bit V1
+```
+Next run one of these commands:
+```
+$ # make sure you are in src/03-setup of the books source code
+$ # If you are working with micro:bit v2
+$ rustup target add thumbv7em-none-eabihf
+$ cargo embed --target thumbv7em-none-eabihf
+
+$ # If you are working with micro:bit v1
+$ rustup target add thumbv6m-none-eabi
+$ cargo embed --target thumbv6m-none-eabi
 ```
